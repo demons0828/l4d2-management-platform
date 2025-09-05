@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <defs>
+    <!-- L4D2 Logo -->
+    <symbol id="l4d2-logo" viewBox="0 0 100 100">
+      <rect width="100" height="100" rx="10" fill="url(#logoGradient)"/>
+      <text x="50" y="35" text-anchor="middle" fill="white" font-size="18" font-weight="bold">L4D2</text>
+      <text x="50" y="55" text-anchor="middle" fill="#CD853F" font-size="12">MANAGER</text>
+      <defs>
+        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#8B4513"/>
+          <stop offset="50%" style="stop-color:#D2691E"/>
+          <stop offset="100%" style="stop-color:#CD853F"/>
+        </linearGradient>
+      </defs>
+    </symbol>
+
+    <!-- Server Icon -->
+    <symbol id="server-icon" viewBox="0 0 24 24">
+      <path d="M4 1h16a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V2a1 1 0 011-1zM4 9h16a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4a1 1 0 011-1zM4 17h16a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4a1 1 0 011-1z" fill="currentColor"/>
+      <circle cx="19" cy="5" r="2" fill="#32CD32"/>
+      <circle cx="19" cy="13" r="2" fill="#FFD700"/>
+      <circle cx="19" cy="21" r="2" fill="#DC143C"/>
+    </symbol>
+
+    <!-- Zombie Icon -->
+    <symbol id="zombie-icon" viewBox="0 0 24 24">
+      <circle cx="12" cy="8" r="3" fill="currentColor"/>
+      <path d="M12 14c-3 0-5.5 2-5.5 4.5V22h11v-3.5c0-2.5-2.5-4.5-5.5-4.5z" fill="currentColor"/>
+      <rect x="9" y="6" width="1" height="2" fill="#DC143C"/>
+      <rect x="14" y="6" width="1" height="2" fill="#DC143C"/>
+      <path d="M8 12l2-1M16 12l-2-1" stroke="currentColor" stroke-width="1" fill="none"/>
+    </symbol>
+
+    <!-- Survivor Icon -->
+    <symbol id="survivor-icon" viewBox="0 0 24 24">
+      <circle cx="12" cy="8" r="3" fill="currentColor"/>
+      <path d="M12 14c-3 0-5.5 2-5.5 4.5V22h11v-3.5c0-2.5-2.5-4.5-5.5-4.5z" fill="currentColor"/>
+      <rect x="9" y="6" width="1" height="2" fill="#4169E1"/>
+      <rect x="14" y="6" width="1" height="2" fill="#4169E1"/>
+      <path d="M9 12c1-1 2-1 3 0M15 12c-1-1-2-1-3 0" stroke="currentColor" stroke-width="1" fill="none"/>
+    </symbol>
+
+    <!-- Weapon Icon -->
+    <symbol id="weapon-icon" viewBox="0 0 24 24">
+      <path d="M6 3l2 2h8l2-2V1H6v2zM8 5v12l4 4v2h2v-2l4-4V5H8z" fill="currentColor"/>
+      <rect x="11" y="7" width="2" height="6" fill="#DAA520"/>
+    </symbol>
+
+    <!-- Map Icon -->
+    <symbol id="map-icon" viewBox="0 0 24 24">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
+      <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
+    </symbol>
+
+    <!-- Health Icon -->
+    <symbol id="health-icon" viewBox="0 0 24 24">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/>
+    </symbol>
+
+    <!-- Settings Icon -->
+    <symbol id="settings-icon" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="3" fill="currentColor"/>
+      <path d="M19.14,12.94a7.07,7.07,0,0,0,.46-2.19,7.13,7.13,0,0,0-.46-2.19l2.09-1.63a.5.5,0,0,0,.12-.68l-2-3.46a.5.5,0,0,0-.61-.27l-2.46.99a7.25,7.25,0,0,0-1.69-.98l-.37-2.54a.5.5,0,0,0-.5-.43H13.29a.5.5,0,0,0-.5.43l-.37,2.54a7.25,7.25,0,0,0-1.69.98l-2.46-.99a.5.5,0,0,0-.61.27l-2,3.46a.5.5,0,0,0,.12.68L4.86,8.56A7.07,7.07,0,0,0,4.4,10.75a7.13,7.13,0,0,0,.46,2.19L2.77,14.57a.5.5,0,0,0-.12.68l2,3.46a.5.5,0,0,0,.61.27l2.46-.99a7.25,7.25,0,0,0,1.69.98l.37,2.54a.5.5,0,0,0,.5.43h3.42a.5.5,0,0,0,.5-.43l.37-2.54a7.25,7.25,0,0,0,1.69-.98l2.46.99a.5.5,0,0,0,.61-.27l2-3.46a.5.5,0,0,0-.12-.68Z" fill="none" stroke="currentColor" stroke-width="1"/>
+    </symbol>
+  </defs>
+</svg>

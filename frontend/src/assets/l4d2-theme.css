@@ -1,0 +1,322 @@
+/* L4D2 主题样式文件 */
+
+/* L4D2 主题颜色变量 */
+:root {
+  --l4d2-primary: #8B4513;
+  --l4d2-secondary: #D2691E;
+  --l4d2-accent: #CD853F;
+  --l4d2-dark: #654321;
+  --l4d2-light: #F4A460;
+  --l4d2-blood: #8B0000;
+  --l4d2-zombie: #556B2F;
+  --l4d2-survivor: #4169E1;
+  --l4d2-gradient: linear-gradient(135deg, #8B4513, #D2691E, #CD853F);
+  --l4d2-bg-gradient: linear-gradient(135deg, #2F1B14 0%, #4A2C1A 50%, #8B4513 100%);
+}
+
+/* L4D2 图标样式 */
+.l4d2-icon {
+  position: relative;
+  display: inline-block;
+}
+
+.l4d2-icon::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: var(--l4d2-gradient);
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 0.7;
+}
+
+/* 服务器状态指示器 */
+.server-status-indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+  animation: pulse 2s infinite;
+}
+
+.server-status-indicator.running {
+  background: var(--l4d2-survivor);
+  box-shadow: 0 0 10px var(--l4d2-survivor);
+}
+
+.server-status-indicator.stopped {
+  background: #666;
+}
+
+.server-status-indicator.error {
+  background: var(--l4d2-blood);
+  box-shadow: 0 0 10px var(--l4d2-blood);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(65, 105, 225, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(65, 105, 225, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(65, 105, 225, 0);
+  }
+}
+
+/* L4D2 风格的卡片 */
+.l4d2-card {
+  background: var(--l4d2-bg-gradient);
+  border: 2px solid var(--l4d2-accent);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(139, 69, 19, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.l4d2-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--l4d2-gradient);
+}
+
+.l4d2-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(139, 69, 19, 0.4);
+}
+
+/* L4D2 风格的按钮 */
+.l4d2-button {
+  background: var(--l4d2-gradient);
+  border: 2px solid var(--l4d2-accent);
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.l4d2-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.l4d2-button:hover::before {
+  left: 100%;
+}
+
+.l4d2-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 69, 19, 0.5);
+}
+
+/* 丧尸主题的警告样式 */
+.zombie-alert {
+  background: linear-gradient(135deg, #556B2F, #8B7355);
+  border: 2px solid #CD853F;
+  color: #F4A460;
+}
+
+.zombie-alert .el-alert__title {
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* 生还者主题的成功样式 */
+.survivor-success {
+  background: linear-gradient(135deg, #4169E1, #6495ED);
+  border: 2px solid #87CEEB;
+  color: white;
+}
+
+/* 游戏地图预览样式 */
+.map-preview {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--l4d2-bg-gradient);
+}
+
+.map-preview::after {
+  content: '🗺️';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  opacity: 0.7;
+}
+
+/* 玩家状态指示器 */
+.player-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.player-status.alive {
+  background: linear-gradient(45deg, #32CD32, #228B22);
+  color: white;
+}
+
+.player-status.dead {
+  background: linear-gradient(45deg, #DC143C, #B22222);
+  color: white;
+}
+
+.player-status.incapacitated {
+  background: linear-gradient(45deg, #FFD700, #FFA500);
+  color: #333;
+}
+
+/* L4D2 风格的进度条 */
+.l4d2-progress {
+  position: relative;
+  height: 8px;
+  background: rgba(139, 69, 19, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.l4d2-progress .el-progress-bar__outer {
+  background: rgba(139, 69, 19, 0.3);
+  border-radius: 4px;
+}
+
+.l4d2-progress .el-progress-bar__inner {
+  background: var(--l4d2-gradient);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.l4d2-progress .el-progress-bar__inner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* 武器和物品图标样式 */
+.weapon-icon, .item-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background: var(--l4d2-bg-gradient);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  border: 1px solid var(--l4d2-accent);
+}
+
+.weapon-icon {
+  background: linear-gradient(45deg, #696969, #2F4F4F);
+}
+
+.item-icon {
+  background: linear-gradient(45deg, #DAA520, #B8860B);
+}
+
+/* 聊天消息样式 */
+.chat-message {
+  padding: 8px 12px;
+  margin: 4px 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.chat-message.player {
+  background: rgba(65, 105, 225, 0.1);
+  border-color: rgba(65, 105, 225, 0.3);
+}
+
+.chat-message.system {
+  background: rgba(139, 69, 19, 0.1);
+  border-color: rgba(139, 69, 19, 0.3);
+  font-style: italic;
+}
+
+/* 游戏统计卡片 */
+.game-stats-card {
+  background: var(--l4d2-bg-gradient);
+  border: 2px solid var(--l4d2-accent);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.game-stats-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.game-stats-card .stat-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--l4d2-light);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 5px;
+}
+
+.game-stats-card .stat-label {
+  color: var(--l4d2-accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+}

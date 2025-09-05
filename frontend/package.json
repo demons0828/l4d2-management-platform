@@ -1,0 +1,30 @@
+{
+  "name": "l4d2-management-platform",
+  "version": "1.0.0",
+  "description": "L4D2服务器管理平台前端",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "format": "prettier --write src/"
+  },
+  "dependencies": {
+    "vue": "^3.3.0",
+    "vue-router": "^4.2.0",
+    "pinia": "^2.1.0",
+    "axios": "^1.4.0",
+    "@element-plus/icons-vue": "^2.1.0",
+    "element-plus": "^2.3.0",
+    "normalize.css": "^8.0.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.0",
+    "eslint": "^8.40.0",
+    "eslint-plugin-vue": "^9.11.0",
+    "vite": "^4.3.0",
+    "@types/node": "^20.2.0",
+    "prettier": "^2.8.0"
+  }
+}

@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  # 后端API服务
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_NAME=L4D2 Management Platform
+      - DEBUG=false
+      - DATABASE_URL=sqlite:///./data/l4d2_manager.db
+      - SECRET_KEY=your-production-secret-key-here
+      - L4D2_SERVER_PATH=/host/steam/l4d2_server
+      - STEAMCMD_PATH=/host/steam/steamcmd
+      - STEAM_CONFIG_PATH=/host/steam/.steam_config
+    volumes:
+      - ./data:/app/data
+      - /home/steam:/host/steam:ro
+    depends_on:
+      - redis
+    networks:
+      - l4d2-network
+
+  # 前端服务
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - l4d2-network
+
+  # Redis缓存服务
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - l4d2-network
+
+  # Nginx反向代理（可选）
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - l4d2-network
+
+volumes:
+  redis_data:
+
+networks:
+  l4d2-network:
+    driver: bridge
