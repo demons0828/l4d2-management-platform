@@ -37,14 +37,42 @@ async def create_room(
     """创建房间"""
     # 检查服务器是否存在
     from app.models.server import Server
+    from app.services.server_manager import ServerManager
+
     server = db.query(Server).filter(Server.id == room.server_id).first()
     if not server:
         raise HTTPException(status_code=404, detail="服务器未找到")
 
+    # 创建房间记录
     db_room = Room(**room.dict(), creator_id=current_user.id)
     db.add(db_room)
     db.commit()
     db.refresh(db_room)
+
+    # 如果服务器未运行，自动启动服务器
+    if server.status != "running":
+        try:
+            server_manager = ServerManager()
+            # 使用房间的配置启动服务器
+            config = {
+                "port": server.port,
+                "max_players": room.max_players,
+                "current_map": room.current_map,
+                "game_mode": room.game_mode,
+                "password": room.password if room.is_private else None,
+                "rcon_password": server.rcon_password
+            }
+
+            start_result = server_manager.start_server(config)
+            if start_result["success"]:
+                server.status = "running"
+                db.commit()
+            else:
+                # 服务器启动失败，但房间已经创建
+                print(f"警告：服务器启动失败 - {start_result['message']}")
+        except Exception as e:
+            print(f"警告：启动服务器时发生错误 - {str(e)}")
+
     return db_room
 
 

@@ -160,3 +160,4 @@ class DownloadManager:
 
 # 全局下载管理器实例
 download_manager = DownloadManager()
+

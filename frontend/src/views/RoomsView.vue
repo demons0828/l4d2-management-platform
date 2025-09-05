@@ -26,13 +26,27 @@
                   </el-tag>
                 </div>
                 <div class="room-info">
-                  <p><strong>服务器:</strong> {{ room.server_id }}</p>
+                  <p><strong>服务器:</strong> {{ room.server?.name || `服务器 ${room.server_id}` }}</p>
+                  <p><strong>连接地址:</strong>
+                    <el-tag type="info" size="small">
+                      {{ room.server?.host || 'localhost' }}:{{ room.server?.port || 27015 }}
+                    </el-tag>
+                  </p>
                   <p><strong>地图:</strong> {{ room.current_map }}</p>
                   <p><strong>模式:</strong> {{ room.game_mode }}</p>
                   <p><strong>玩家:</strong> {{ room.current_players }}/{{ room.max_players }}</p>
+                  <p v-if="room.server?.status" class="server-status">
+                    <strong>服务器状态:</strong>
+                    <el-tag :type="getStatusType(room.server.status)" size="small">
+                      {{ getStatusText(room.server.status) }}
+                    </el-tag>
+                  </p>
                 </div>
                 <div class="room-actions">
                   <el-button-group>
+                    <el-button size="small" @click="connectToGame(room)" type="success">
+                      🎮 连接游戏
+                    </el-button>
                     <el-button size="small" @click="joinRoom(room)" type="primary">
                       加入
                     </el-button>
@@ -216,13 +230,26 @@ const createRules = {
 
 const loadRooms = async () => {
   try {
-    const [myRoomsResponse, publicRoomsResponse] = await Promise.all([
+    const [myRoomsResponse, publicRoomsResponse, serversResponse] = await Promise.all([
       api.get('/rooms'),
-      api.get('/rooms') // 这里应该有过滤公开房间的API
+      api.get('/rooms'), // 这里应该有过滤公开房间的API
+      api.get('/servers')
     ])
 
-    myRooms.value = myRoomsResponse.data.filter(room => room.creator_id === 1) // 临时过滤
-    publicRooms.value = publicRoomsResponse.data.filter(room => !room.is_private)
+    // 为房间添加服务器信息
+    const servers = serversResponse.data
+    const roomsWithServer = myRoomsResponse.data.map(room => ({
+      ...room,
+      server: servers.find(s => s.id === room.server_id)
+    }))
+
+    myRooms.value = roomsWithServer.filter(room => room.creator_id === 1) // 临时过滤
+    publicRooms.value = publicRoomsResponse.data
+      .filter(room => !room.is_private)
+      .map(room => ({
+        ...room,
+        server: servers.find(s => s.id === room.server_id)
+      }))
   } catch (error) {
     ElMessage.error('加载房间列表失败')
     console.error('加载房间失败:', error)
@@ -243,7 +270,18 @@ const handleCreateRoom = async () => {
     await createFormRef.value.validate()
     createLoading.value = true
 
-    const response = await api.post('/rooms', createForm)
+    // 转换字段名为后端期望的格式
+    const roomData = {
+      name: createForm.name,
+      server_id: createForm.serverId,
+      max_players: createForm.maxPlayers,
+      game_mode: createForm.gameMode,
+      current_map: createForm.currentMap,
+      is_private: createForm.isPrivate,
+      password: createForm.isPrivate ? createForm.password : null
+    }
+
+    const response = await api.post('/rooms', roomData)
 
     ElMessage.success('房间创建成功')
     showCreateDialog.value = false
@@ -269,9 +307,14 @@ const joinRoom = async (room) => {
         inputErrorMessage: '密码不能为空'
       })
 
-      await api.post(`/rooms/${room.id}/join`, { password: password.value })
+      await api.post(`/rooms/${room.id}/join`, {
+        room_id: room.id,
+        password: password.value
+      })
     } else {
-      await api.post(`/rooms/${room.id}/join`)
+      await api.post(`/rooms/${room.id}/join`, {
+        room_id: room.id
+      })
     }
 
     ElMessage.success('成功加入房间')
@@ -282,6 +325,39 @@ const joinRoom = async (room) => {
       console.error('加入房间失败:', error)
     }
   }
+}
+
+const connectToGame = async (room) => {
+  const server = room.server
+  if (!server) {
+    ElMessage.error('服务器信息未找到')
+    return
+  }
+
+  const connectionInfo = `${server.host || 'localhost'}:${server.port || 27015}`
+  const password = room.password ? `\n密码: ${room.password}` : ''
+
+  const message = `🎮 游戏连接指南：
+
+📍 服务器地址: ${connectionInfo}${password}
+
+📋 连接步骤:
+1. 打开 L4D2 游戏
+2. 进入主菜单
+3. 按 ~ 键打开控制台
+4. 输入: connect ${connectionInfo}
+5. 如果有密码，输入: password ${room.password || ''}
+
+💡 提示:
+• 确保服务器正在运行（状态: ${getStatusText(server.status)}）
+• 如果连接失败，请检查防火墙设置
+• 游戏版本需要与服务器版本匹配`
+
+  ElMessageBox.alert(message, '游戏连接指南', {
+    confirmButtonText: '知道了',
+    type: 'info',
+    dangerouslyUseHTMLString: true
+  })
 }
 
 const joinByCode = async () => {
@@ -311,6 +387,28 @@ const deleteRoom = async (room) => {
       console.error('删除房间失败:', error)
     }
   }
+}
+
+const getStatusType = (status) => {
+  const statusMap = {
+    'running': 'success',
+    'stopped': 'danger',
+    'starting': 'warning',
+    'stopping': 'warning',
+    'error': 'danger'
+  }
+  return statusMap[status] || 'info'
+}
+
+const getStatusText = (status) => {
+  const statusMap = {
+    'running': '运行中',
+    'stopped': '已停止',
+    'starting': '启动中',
+    'stopping': '停止中',
+    'error': '错误'
+  }
+  return statusMap[status] || status
 }
 
 const resetCreateForm = () => {

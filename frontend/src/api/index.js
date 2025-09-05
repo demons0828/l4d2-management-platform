@@ -3,7 +3,7 @@ import { useUserStore } from '@/stores/user'
 
 // 创建axios实例
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? '/api' : 'http://120.55.4.60:8000/api'),
   timeout: 10000
 })
 
