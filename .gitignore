@@ -82,6 +82,12 @@ coverage/
 test-results/
 playwright-report/
 
+# Steam配置文件（包含敏感信息）
+.steam_config
+steam/
+**/steam/
+*.steam
+
 # 其他
 .pytest_cache/
 .mypy_cache/
