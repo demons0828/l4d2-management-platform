@@ -22,7 +22,13 @@ export const useUserStore = defineStore('user', {
             username: response.data.username,
             avatarUrl: response.data.avatar_url
           }
-          this.token = 'fake-token' // 简化处理，实际项目中应从后端获取真实token
+          // 为Steam登录创建token（使用steam_id作为payload）
+          this.token = btoa(JSON.stringify({
+            sub: response.data.steam_id,
+            type: 'steam',
+            iat: Math.floor(Date.now() / 1000),
+            exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) // 24小时过期
+          }))
           localStorage.setItem('token', this.token)
           localStorage.setItem('user', JSON.stringify(this.user))
           return { success: true }

@@ -19,6 +19,9 @@ class Settings(BaseSettings):
     # Steam API配置
     steam_api_key: Optional[str] = None
 
+    # 管理员配置
+    admin_steam_ids: list = ["76561198384629467"]
+
     # 服务器配置
     l4d2_server_path: str = "/home/steam/l4d2_server"
     steamcmd_path: str = "/home/steam/steamcmd"

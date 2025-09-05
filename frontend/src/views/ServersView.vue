@@ -157,7 +157,7 @@
         />
       </div>
 
-      <el-form label-width="120px">
+      <el-form label-width="120px" @submit.prevent>
         <el-form-item label="安装类型">
           <el-select v-model="installForm.installType" placeholder="选择安装类型">
             <el-option label="完整安装（推荐）" value="full" />

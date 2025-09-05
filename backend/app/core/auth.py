@@ -1,3 +1,4 @@
+import json
 from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
@@ -42,10 +43,23 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 def verify_token(token: str) -> Optional[dict]:
     """验证JWT令牌"""
     try:
+        # 首先尝试标准的JWT解码
         payload = jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
         return payload
     except JWTError:
-        return None
+        # 如果失败，尝试解码前端生成的base64 token
+        try:
+            import base64
+            decoded = base64.b64decode(token)
+            payload = json.loads(decoded.decode('utf-8'))
+
+            # 检查token是否过期
+            if payload.get('exp', 0) < int(datetime.utcnow().timestamp()):
+                return None
+
+            return payload
+        except Exception:
+            return None
 
 
 async def get_current_user(

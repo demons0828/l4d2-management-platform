@@ -102,11 +102,12 @@ class SteamAuthService:
             ]
 
             result = await asyncio.get_event_loop().run_in_executor(
-                None, subprocess.run, cmd, {
-                    "capture_output": True,
-                    "text": True,
-                    "timeout": 60
-                }
+                None, lambda: subprocess.run(
+                    cmd,
+                    capture_output=True,
+                    text=True,
+                    timeout=60
+                )
             )
 
             if result.returncode == 0 and "FAILED login" not in result.stderr:

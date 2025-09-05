@@ -27,15 +27,26 @@ async def steam_login(steam_id: str, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.steam_id == steam_id).first()
 
     if not user:
+        # 检查是否是管理员Steam ID
+        from app.core.config import settings
+        is_admin = steam_id in settings.admin_steam_ids
+
         # 创建新用户
         user = User(
             steam_id=steam_id,
             username=auth_result["username"],
-            avatar_url=auth_result.get("avatar_url")
+            avatar_url=auth_result.get("avatar_url"),
+            is_admin=is_admin
         )
         db.add(user)
         db.commit()
         db.refresh(user)
+    else:
+        # 如果用户已存在，检查是否需要更新管理员状态
+        from app.core.config import settings
+        if steam_id in settings.admin_steam_ids and not user.is_admin:
+            user.is_admin = True
+            db.commit()
 
     return SteamAuthResponse(**auth_result)
 
